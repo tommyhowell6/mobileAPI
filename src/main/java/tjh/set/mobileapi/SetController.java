@@ -26,4 +26,10 @@ public class SetController {
         ScoreStatsRepository repo = appContext.getBean(ScoreStatsRepository.class);
         return ResponseEntity.ok(repo.findById(id).get());
     }
+
+    @GetMapping
+    public ResponseEntity<Iterable<ScoreStats>> getHighScores() {
+        ScoreStatsRepository repo = appContext.getBean(ScoreStatsRepository.class);
+        return ResponseEntity.ok(repo.findAll());
+    }
 }
