@@ -6,8 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("highScores")
+@RequestMapping("scores")
 public class SetController {
 
     @Autowired
@@ -21,15 +23,15 @@ public class SetController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping
-    public ResponseEntity<ScoreStats> getScoreStats(@RequestParam(required = true) Long id) {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<ScoreStats> getScoreStats(@PathVariable("id") Long id) {
         ScoreStatsRepository repo = appContext.getBean(ScoreStatsRepository.class);
         return ResponseEntity.ok(repo.findById(id).get());
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<ScoreStats>> getHighScores() {
-        ScoreStatsRepository repo = appContext.getBean(ScoreStatsRepository.class);
-        return ResponseEntity.ok(repo.findAll());
+    public ResponseEntity<List<ScoreHolder>> getHighScores() {
+        ScoreHolderRepository repo = appContext.getBean(ScoreHolderRepository.class);
+        return ResponseEntity.ok(repo.getHighestScores());
     }
 }
