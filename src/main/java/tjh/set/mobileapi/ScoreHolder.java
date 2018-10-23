@@ -7,9 +7,9 @@ import javax.persistence.Id;
 public class ScoreHolder {
 
     @Id
-    long id;
-    String user;
-    int score;
+    private long id;
+    private String user;
+    private int score;
 
     public ScoreHolder() {
     }
