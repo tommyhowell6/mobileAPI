@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("scores")
+@RequestMapping("set/scores")
 public class SetController {
 
     @Autowired
