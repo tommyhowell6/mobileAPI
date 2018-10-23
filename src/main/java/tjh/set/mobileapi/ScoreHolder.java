@@ -1,15 +1,20 @@
 package tjh.set.mobileapi;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 public class ScoreHolder {
 
     @Id
-    long id;
-    String user;
-    int score;
+    private long id;
+    private String user;
+    private int score;
 
     public ScoreHolder() {
     }
