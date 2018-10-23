@@ -6,7 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("set/scores")
@@ -26,12 +29,21 @@ public class SetController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<ScoreStats> getScoreStats(@PathVariable("id") Long id) {
         ScoreStatsRepository repo = appContext.getBean(ScoreStatsRepository.class);
-        return ResponseEntity.ok(repo.findById(id).get());
+      Optional<ScoreStats> result = repo.findById(id);
+      if (result.isPresent()) {
+        return ResponseEntity.ok(result.get());
+      }
+      else {
+        return ResponseEntity.notFound().build();
+      }
     }
 
     @GetMapping
     public ResponseEntity<List<ScoreHolder>> getHighScores() {
         ScoreHolderRepository repo = appContext.getBean(ScoreHolderRepository.class);
-        return ResponseEntity.ok(repo.getHighestScores());
+        List<ScoreHolder> sortedHighScoreList = repo.getHighestScores().stream()
+            .sorted(Comparator.comparingInt(ScoreHolder::getScore).reversed())
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(sortedHighScoreList);
     }
 }
